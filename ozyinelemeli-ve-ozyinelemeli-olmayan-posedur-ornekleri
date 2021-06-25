@@ -1,0 +1,53 @@
+org 100h
+
+mov ax,0001h
+mov bx,[x]
+
+call faktoriyel
+
+mov cx,ax
+
+ret
+
+faktoriyel proc          ;ozyinelemeli prosedur fonksiyon
+    cmp bx,0001
+    je cik
+    push bx
+    dec bx
+    call faktoriyel
+    pop bx
+    mul bx
+    cik:
+    ret
+    faktoriyel endp
+
+x dw 06
+
+end
+
+-------------------------------------------------------------------------
+ÜSTEKİ FAKTORİYELİN Ozyenilemeli Olmayan Versiyonu 
+
+org 100h
+
+mov ax,0001h
+mov bx,[x]
+call faktoriyel
+mov cx,ax
+ret
+
+faktoriyel proc
+    mov ax,bx
+    fakt:     
+    dec bx          
+    mul bx
+    cmp bx,0001
+    je cik
+    jmp fakt
+    cik:
+    ret
+    faktoriyel endp
+
+x dw 06
+
+end
