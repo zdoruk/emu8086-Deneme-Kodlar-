@@ -1,0 +1,52 @@
+org 100h
+ 
+
+mov bx,13                 ;bx e istedigimiz sayi atanir
+mov ax,bx                 ;bolme islemi icin sayi ax e atanir
+mov dx,2                  ;en az iterasyon icin 
+div dx                    ;sayi 2 e bolunur
+mov cx,ax                 ;asal olcmek icin bx in yarisi ile azalarak bolunur
+
+cmp bx,0100h              ;bx 8 bit mi 16 bit mi kontrol edilir
+
+jc sekizdenkucuk          ;8 bit ise dallanir
+
+
+dongu:                    ;16 bit ise donguye girer
+mov ax,bx
+div cx
+cmp dx,0                  ;bolumlerden kalan gelir ise asal degildir
+
+jz asaldegil              ;asal degil ise sonuca dallanir
+
+loop dongu
+
+jmp asal                  ;asal ise donguden cikar ve sonuca dallanir
+
+
+
+sekizdenkucuk:            ;8 bit den kucuk ise buraya gelir
+
+donguiki:                 ;8 bit den kucuk ise donguye girer
+mov ax,bx
+div cx
+cmp ah,0                  ;bolumlerden kalan gelir ise asal degildir
+ 
+jz asaldegil              ;asal degil ise sonuca dallanir
+
+loop donguiki
+jmp asal                  ;asal ise donguden cikar ve sonuca dallanir
+
+ 
+asal:                     ;asal ise buraya gelir ve islem yapilir
+mov [120h],5
+jmp cikis                 ;islemler bitince cikisa dallanir
+
+
+asaldegil:                ;asal degil ise buraya gelir ve islem yapilir
+mov [120h],7
+jmp cikis                 ;islemler bitince cikisa dallanir
+                          
+cikis:                    ;cikisa gelmek icin dallanir
+
+end
