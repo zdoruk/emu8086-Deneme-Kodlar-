@@ -1,0 +1,65 @@
+
+org 100h  
+
+vara DB 01h,02h,03h,04h,05h,06h,07h,08h
+varb DB 10h,20h,30h,40h,50h,60h,70h,80h   
+
+mov al,5eh              ;al'ye 5Eh atanir
+mov [1258h],al          ;1258h 'a 5Eh atanir
+
+mov ax,[1258h]          ;1258h 'daki deger ax e atanir
+
+mov cx,16               ;kac kere tekrar edecegi
+mov bx,0                ;kac tane 1 oldugu
+
+birbulma:		                                
+shr ax,1                ;ax'i sag tarafa tek tek kaydirma		                                
+jnc sifir               ;sifir gelince atlanir
+inc bx                  ;bir gelince artirilir
+sifir:
+loop birbulma
+
+mov cx,0
+mov cx,bx               ;cx'e bulunan bir sayisi atanir
+mov bx,0                ;bx sifirlanir
+mov ax,0                ;ax sifirlanir
+mov dx,0                ;dx sifirlanir
+                
+                        ;cx'e saydigimiz bir sayisini attik yani 5
+                        ;burda da buldugumuz 5 sayisindan yani
+toplama:                ;[vara] ve [varb] dizilerinin 5. elemanindan
+                        ;1. elemanlarina kadar sirayla carpilarak
+                        ;toplamlari bx e atanir
+                        ;yani; 
+                        ;vara[5]*varb[5] +.....+ vara[1]*varb[1]=bx
+
+                        
+mov SI,cx               ;dizilerin istedigimiz elemanina gitmek icin
+                        ;SI degiskenini kullandik
+mov ax,0                ;ax 0 lanir
+mov dx,0                ;dx 0 lanir
+mov al,vara[SI]         ;ax'e vara dizinin cx deki degeri atanir
+mov dl,varb[SI]         ;dx'e varb dizinin cx deki degeri atanir
+                        
+mul dl                  ;ax ile dx carpilip ax e yazilir
+
+add bx,ax               ;carpim sonucu bx de toplanir
+
+
+loop toplama
+
+
+		                                
+mov ax,0                ;ax sifirlanir
+mov dx,0                ;bx sifirlanir
+mov cx,0                ;cx sifirlanir
+
+mov ax,0300h            ;adrese atama yapmak icin  
+mov ds,ax               ;data segmenti 0300h olarak belirlenir
+mov [0300h],bx          ;tum sonuc 0300:0300h adresine atanir
+
+
+		                                
+ret
+  
+end  
