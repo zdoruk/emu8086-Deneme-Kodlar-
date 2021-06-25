@@ -1,0 +1,41 @@
+.model small
+.stack 64
+.data
+    
+  dizi db 6 dub (6)    ;'Zeynel' 6 harf bastirilacak harf 'y'
+        
+.code
+    
+mov si,offset dizi     ;dizinin ilk elemaninin adresi si'a atandi
+     
+mov cx,6               ;dizi degeri kadar count atandi
+isimalma:
+      
+mov ah,01h             ;kullanicidan deger alindi
+int 21h
+     
+mov [si],al            ;deger dizini ilk degerine atandi
+inc si                 ;dizinin sonraki adimina gecildi
+     
+loop isimalma  
+   
+mov ah,02h             ;bir satir assagi inildi 
+mov dl,0Ah             
+int 21h 
+
+mov cx,6               ;6 birim geri kayma ve satir basina donmek icin 
+gerigelme:
+mov ah,02h              
+mov dl,08h             ;bir birim geri gelme (back -08h)
+int 21h
+loop gerigelme  
+   
+mov si,offset dizi     ;dizini ilk elemanina donuldu
+   
+mov ah,02h             
+mov dl,[si+2]          ;dizinin istenilen ortanca elamina gidildi  
+int 21h                ;ve akrana yazdirildi
+   
+   
+                
+end
