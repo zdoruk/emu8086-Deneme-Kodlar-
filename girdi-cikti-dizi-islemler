@@ -1,0 +1,96 @@
+.model small
+.stack 64
+.data
+
+   dizi db 6 dup(6)     ;'ZEYNEL' 6 HARF     
+
+.code
+
+mov si,offset dizi      ;dizinin ilk elemaninin konumu atandi
+mov cx,6                ;cx dizinin elemani kadar atandi
+mov ax,6               
+
+dongu:                  ;Zeynel  
+mov [si],ax             ;6 harfli 
+inc si                  ;icerisinde 6
+loop dongu              ;olmali
+
+
+
+
+mov cx,6                ;cx dizinin elemani kadar atandi
+mov si,offset dizi      ;dizinin ilk elemaninin konumu atandi
+
+                         
+donguoku:               ;diziye okul numaran son 6 hanesi olan 180066 atamasi icin
+mov ah,01h              ;okuma islemi atandi
+int 21h                 ;islem gereceklesti
+mov [si],al             ;girdi al'den dizide gereken elemana yazildi
+inc si                  ;dizi 1 deger arttirildi ve sonraki elemana gecildi
+loop donguoku           ;dizi elemani kadar donguge girildi
+
+
+
+;Alttaki Kodu Bir Onceki Gonderdigim Odevden Aldim Goze Guzel Gozukmesi Icin
+mov ah,02h              ;bir satir assagi inildi 
+mov dl,0Ah             
+int 21h 
+
+mov cx,6                ;6 birim geri kayma ve satir basina donmek icin 
+gerigelme1:             
+mov ah,02h              
+mov dl,08h              ;bir birim geri gelme (back -08h)
+int 21h
+loop gerigelme1
+;Usteki Kodu Bir Onceki Gonderdigim Odevden Aldim Goze Guzel Gozukmesi Icin
+
+
+
+mov cx,6                ;cx dizinin elemani kadar atandi
+
+dongutersdenyaz:        ;atadigimiz donguyu tersten ekrana yazdirma
+dec si                  ;si diziye eleman alirken artirilmisti simdi
+                        ;simdi azaltarak elemanlarda tersten geliyoruz
+mov ah,02h              ;yazdirma islemi atandi
+mov dl,[si]             ;yazdirmak istedigimiz eleman dl ye atandi
+int 21h                 ;islem gerceklestirildi
+loop dongutersdenyaz    ;dizi elemani kadar donguge girildi
+
+
+
+;Alttaki Kodu Bir Onceki Gonderdigim Odevden Aldim Goze Guzel Gozukmesi Icin
+mov ah,02h              ;bir satir assagi inildi 
+mov dl,0Ah             
+int 21h 
+
+mov cx,6                ;6 birim geri kayma ve satir basina donmek icin 
+gerigelme2:
+mov ah,02h              
+mov dl,08h              ;bir birim geri gelme (back -08h)
+int 21h
+loop gerigelme2
+;Usteki Kodu Bir Onceki Gonderdigim Odevden Aldim Goze Guzel Gozukmesi Icin
+
+
+
+mov ax,0066h            ;bir saklayiciya okul numarasinin son 4 hanesini atandi 
+
+mov bx,0309h            ;bir saklayiciya tarih atandi  
+
+xor ax,bx               ;atanandegerlere XOR islemi yapildi
+mov bx,ax
+
+;ben nasil yazdirildigini merak ettigim icin denedim 
+mov ah,02h
+mov dl,bh               ;bx i yazdirirken once bh yazdirdim
+int 21h
+mov ah,02h
+mov dl,bl               ;bx i yazdirirken sonra bl yazdirdim        
+int 21h
+
+
+
+
+
+
+end
